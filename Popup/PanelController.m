@@ -9,7 +9,7 @@
 #define SEARCH_INSET 17
 
 #define POPUP_HEIGHT 122
-#define PANEL_WIDTH 280
+#define PANEL_WIDTH 560
 #define MENU_ANIMATION_DURATION .1
 
 #pragma mark -
@@ -147,12 +147,39 @@
 - (void)runSearch
 {
     NSString *searchFormat = @"";
-    NSString *searchString = [self.searchField stringValue];
+    NSString *searchString = [NSString stringWithFormat:@"p %@", [self.searchField stringValue]];
+    NSString *searchRequest = @"";
     if ([searchString length] > 0)
     {
-        searchFormat = NSLocalizedString(@"Search for ‘%@’…", @"Format for search request");
+        searchFormat = @"Search for ‘%@’…";
+//        NSString *path = @"ruby";
+//        NSArray *args = [NSArray arrayWithObjects:@"-e", searchString, nil];
+//        [[NSTask launchedTaskWithLaunchPath:path arguments:args] waitUntilExit];
+        //NSLocalizedString(, @"Format for search request");
+        
+        NSTask *server = [NSTask new];
+        [server setLaunchPath:@"/Users/soheil/.rvm/rubies/ruby-2.0.0-p247/bin/ruby"];
+        [server setArguments:[NSArray arrayWithObjects:@"-e", searchString, nil]];
+//        [server setCurrentDirectoryPath:@"/path/to/current/directory/"];
+        
+        NSPipe *outputPipe = [NSPipe pipe];
+        [server setStandardInput:[NSPipe pipe]];
+        [server setStandardOutput:outputPipe];
+        
+        NSPipe *errorPipe = [NSPipe pipe];
+        [server setStandardError:errorPipe];
+        
+        [server launch];
+        [server waitUntilExit]; // Alternatively, make it asynchronous.
+//        [server release];
+        
+        NSData *outputData = [[outputPipe fileHandleForReading] readDataToEndOfFile];
+        NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
+        NSString *outputString = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
+        NSString *errorString = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
+        searchRequest = [outputString length] ? outputString : errorString;
     }
-    NSString *searchRequest = [NSString stringWithFormat:searchFormat, searchString];
+//    NSString *searchRequest = [NSString stringWithFormat:searchFormat, searchString];
     [self.textField setStringValue:searchRequest];
 }
 

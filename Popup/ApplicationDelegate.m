@@ -1,4 +1,5 @@
 #import "ApplicationDelegate.h"
+#import "DDHotKeyCenter.h"
 
 @implementation ApplicationDelegate
 
@@ -32,6 +33,14 @@ void *kContextActivePanel = &kContextActivePanel;
 {
     // Install icon into the menu bar
     self.menubarController = [[MenubarController alloc] init];
+    
+    
+	DDHotKeyCenter * c = [[DDHotKeyCenter alloc] init];
+	[c registerHotKeyWithKeyCode:kVK_ANSI_R modifierFlags:(NSAlternateKeyMask|NSShiftKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
+}
+
+- (void) hotkeyWithEvent:(NSEvent *)hkEvent {
+    [self togglePanel:nil];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
