@@ -1,6 +1,6 @@
 # Ruber
 
-Ruby REPL in your Menubar. You know this was gonna happen.
+Realtime Ruby REPL in your Menubar. You know this was gonna happen.
 
 ## Ready to eat version
 
@@ -10,7 +10,7 @@ You can just [download it here](https://github.com/soheil/Ruber/raw/master/Ruber
 
 ## Why
 
-To learn ruby the easy way. Oh yeah there is also a keyboard shortcut: ```<Option>+<Shift>+R```
+To learn ruby the easy way. Oh yeah there is also a keyboard shortcut: ```<Option> + <Shift> + R```
 
 ![Learn ruby the easy way](not-plain.png)
 

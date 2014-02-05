@@ -158,7 +158,7 @@
         //NSLocalizedString(, @"Format for search request");
         
         NSTask *server = [NSTask new];
-        [server setLaunchPath:@"/Users/soheil/.rvm/rubies/ruby-2.0.0-p247/bin/ruby"];
+        [server setLaunchPath:@"/usr/bin/ruby"];
         [server setArguments:[NSArray arrayWithObjects:@"-e", searchString, nil]];
 //        [server setCurrentDirectoryPath:@"/path/to/current/directory/"];
         
